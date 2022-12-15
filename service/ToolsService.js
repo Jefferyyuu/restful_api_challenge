@@ -1,4 +1,5 @@
 'use strict';
+const dns = require('dns');
 
 
 /**
@@ -10,13 +11,10 @@
  **/
 exports.lookup_domain = function(domain) {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {"empty": false};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
+    dns.lookup("domain", (err, address, family) => {
+      if(err) reject(err);
+      resolve(address);
+    });
   });
 }
 
@@ -37,10 +35,10 @@ exports.lookup_domain = function(domain) {
      if (obj.ip.match(ipformat)) {
        isIp4 = true;
      }
-     var examples = {};
-     examples['application/json'] = {status: isIp4};
-     if (Object.keys(examples).length > 0) {
-       resolve(examples[Object.keys(examples)[0]]);
+     var res = {};
+     res['application/json'] = {status: isIp4};
+     if (Object.keys(res).length > 0) {
+       resolve(res[Object.keys(res)[0]]);
      } else {
        resolve();
      }

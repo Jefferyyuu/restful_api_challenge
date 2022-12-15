@@ -13,16 +13,16 @@
 
    return new Promise(function(resolve, reject) {
      var historys = {};
-     // try {
-     //   historys = await History.find({});
-     //   console.log("found historys");
-     // } catch (error) {
-     //   console.log(error.message);
-     // }
-     var examples = {};
-     examples['application/json'] = {history: historys};
-     if (Object.keys(examples).length > 0) {
-       resolve(examples[Object.keys(examples)[0]]);
+     try {
+       historys = History.find().limit(20);
+       console.log("found historys", historys);
+     } catch (error) {
+       console.log(error.message);
+     }
+     var res = {};
+     res['application/json'] = {history: historys};
+     if (Object.keys(res).length > 0) {
+       resolve(res[Object.keys(res)[0]]);
      } else {
        resolve();
      }

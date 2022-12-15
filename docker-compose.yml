@@ -9,7 +9,7 @@ volumes:
 services:
   #mongodb services
   mongo_db:
-    container_name: mongodb_container
+    container_name: db_container
     image: mongo:latest
     restart: always
     volumes:
