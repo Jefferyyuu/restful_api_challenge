@@ -46,7 +46,7 @@ app.get('/metrics', (req, res) => {
 
 // connect to mongo_db
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/Rest_Api', {
+mongoose.connect('mongodb://127.0.0.1:27017/Rest_Api', {
 }).then(()=>{
   console.log('Mongodb connected');
 });
