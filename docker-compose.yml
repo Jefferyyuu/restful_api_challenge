@@ -1,0 +1,40 @@
+version: '3.9'
+
+
+volumes:
+  prometheus-data:
+    driver: local
+  mongo_db: {}
+
+services:
+  #mongodb services
+  mongo_db:
+    container_name: mongodb_container
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongo_db:/data/db
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - /etc/prometheus:/configuration
+      - prometheus-data:/prometheus
+    restart: unless-stopped
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+
+  api:
+    build: .
+    ports:
+      - 3000:3000
+    environment:
+      PORT: 3000
+      MONGODB_URI: mongodb://mongo_db:27017
+      DB_NAME: query_list
+      DB_USER: DATABASE USER
+      DB_PASS: DATABASE USER PASSWORD
+    depends_on:
+      - mongo_db
